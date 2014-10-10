@@ -1,6 +1,6 @@
 BITS 64
 
-%include "strings.inc"
+%include "../lib/strings.inc"
 
 global _start
 
