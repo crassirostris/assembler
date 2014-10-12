@@ -1,16 +1,19 @@
 PROJECT_PATH=$(shell pwd)
 PROGRAM_NAME=$(shell basename $(PROJECT_PATH))
+OUTPUT_DIR=bin/
+OUTPUT_FILE=bin/$(PROGRAM_NAME)
 
 NASM=nasm
 NASMFLAGS=-f elf64
 
-all: clean $(PROGRAM_NAME)
+all: clean $(OUTPUT_FILE)
 
 clean:
-	rm -f $(PROGRAM_NAME) $(PROGRAM_NAME).o
+	rm -f $(OUTPUT_FILE) $(OUTPUT_FILE).o
 
-$(PROGRAM_NAME): $(PROGRAM_NAME).o
-	ld $(PROGRAM_NAME).o -o $(PROGRAM_NAME)
+$(OUTPUT_FILE): $(OUTPUT_FILE).o
+	if [[ ! -d bin ]]; then mkdir bin; fi
+	ld $(OUTPUT_FILE).o -o $(OUTPUT_FILE)
 
-%.o: %.asm
+$(OUTPUT_DIR)%.o: %.asm
 	$(NASM) $(NASMFLAGS) -o $@ $<
