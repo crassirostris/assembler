@@ -52,6 +52,75 @@ section .text
 
 		ret
 
+	; rsi -- first string
+	; rdi -- second string
+	; out rax -- result
+	_strcmp:
+		push rsi
+		push rdi
+		push rdx
+
+		xor rdx, rdx
+
+		.loop:
+			lodsb
+			cmp al, [rdi]
+			jnz _strcmp.fail
+			inc rdi
+			cmp byte [rsi], 0
+			jnz _strcmp.loop
+		jmp .success
+
+		.fail:
+		inc rdx
+		.success:
+		xchg rdx, rax
+
+		pop rdx
+		pop rdi
+		pop rsi
+
+		ret
+
+	; rax -- number
+	; rsi -- output string buffer
+	_hex:
+		push rsi
+		push rdi
+		push rdx
+
+		.loop:
+			mov dl, al
+			and dl, 0xF
+			cmp dl, 0xa
+			jb _hex.digit
+			sub dl, 0xa
+			add dl, 'a'
+			jmp _hex.print
+
+			.digit:
+			add dl, '0'
+
+			.print:
+			mov [rsi], dl
+			inc rsi
+
+			shr rax, 4
+			test rax, rax
+			jnz _hex.loop
+
+		mov byte [rsi], 'x'
+		mov byte [rsi + 1], '0'
+		mov byte [rsi + 2], 0x0
+
+		pop rdx
+		pop rdi
+		pop rsi
+
+		call _reverse
+
+		ret
+
 	; rax -- number
 	; rsi -- output string buffer
 	_itoa:

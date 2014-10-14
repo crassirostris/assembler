@@ -10,7 +10,9 @@ section .data
 	ERR_UNKNOWN_OPERATION db 'Unknown operation', 0x0
 	ERR_DIVISION_BY_ZERO db 'Cannot divide by zero', 0x0
 
-	HELP_MESSAGE db 'Usage: program <first_arg> <operation> <second_arg>', 0x0
+	HEX_OPTION db 'hex', 0x0
+
+	HELP_MESSAGE db 'Usage: program <first_arg> <operation> <second_arg> [hex]', 0x0
 
 section .text
 	_start:
@@ -73,8 +75,29 @@ section .text
 
 
 		.print_result:
+
+		xchg rcx, rax
+		cmp qword [rbp], 5
+		jb _start.convert_decimal
+		mov rsi, [rbp + 4 * 8 + 8]
+		mov rdi, HEX_OPTION
+		call _strcmp
+		test rax, rax
+		jnz _start.convert_decimal
+
+		.convert_hex:
 		lea rsi, [rbp - 0x100]
+		xchg rcx, rax
+		call _hex
+		jmp _start.print
+
+		.convert_decimal:
+		lea rsi, [rbp - 0x100]
+		xchg rcx, rax
 		call _itoa
+
+		.print:
+
 		call _print_string
 
 		add rsp, 0x100
