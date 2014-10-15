@@ -1,6 +1,10 @@
 BITS 64
 
+section .data
+	LINE_END db 0xa, 0x0
+
 section .text
+
 
 	; rsi -- pointer to string
 	_print_string:
@@ -13,21 +17,27 @@ section .text
 
 		mov rdx, rax ; String length
 
-		mov byte [rsi + rdx], 0x0a
-		inc rdx
-
 		mov rax, 1   ; Syscall number
 		mov rdi, 1   ; fb number (output)
 					 ; rsi -- string address
 		syscall
 
-		dec rdx
-		mov byte [rsi + rdx], 0x00
-
 		pop rdi
 		pop rdx
 		pop rcx
 		pop rax
+
+		ret
+
+	; rsi -- pointer to string
+	_print_string_ln:
+		push rsi
+
+		call _print_string
+		mov rsi, LINE_END
+		call _print_string
+
+		pop rsi
 
 		ret
 

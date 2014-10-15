@@ -85,30 +85,30 @@ section .text
 
 		.finish:
 		xchg rdi, rsi
-		call _print_string
+		call _print_string_ln
 
 		mov  rsp, rbp
 		call _exit
 
 	_non_positive_denominator:
 		mov rsi, ERR_NON_POSITIVE_DENOMINTATOR
-		call _print_string
+		call _print_string_ln
 		mov rsi, HELP_MESSAGE
-		call _print_string
+		call _print_string_ln
 		call _exit
 
 	_not_enough_aruments:
 		mov rsi, ERR_NOT_ENOUGH_ARGUMENTS
-		call _print_string
+		call _print_string_ln
 		mov rsi, HELP_MESSAGE
-		call _print_string
+		call _print_string_ln
 		call _exit
 
 	_bad_format_number:
 		mov rsi, ERR_BAD_FORAMT_NUMBER
-		call _print_string
+		call _print_string_ln
 		mov rsi, HELP_MESSAGE
-		call _print_string
+		call _print_string_ln
 		call _exit
 
 	_atoi_safe:

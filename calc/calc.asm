@@ -98,37 +98,37 @@ section .text
 
 		.print:
 
-		call _print_string
+		call _print_string_ln
 
 		add rsp, 0x100
 		call _exit
 
 	_unknown_operation:
 		mov rsi, ERR_UNKNOWN_OPERATION
-		call _print_string
+		call _print_string_ln
 		mov rsi, HELP_MESSAGE
-		call _print_string
+		call _print_string_ln
 		call _exit
 
 	_cannot_divide_by_zero:
 		mov rsi, ERR_DIVISION_BY_ZERO
-		call _print_string
+		call _print_string_ln
 		mov rsi, HELP_MESSAGE
-		call _print_string
+		call _print_string_ln
 		call _exit
 
 	_not_enough_aruments:
 		mov rsi, ERR_NOT_ENOUGH_ARGUMENTS
-		call _print_string
+		call _print_string_ln
 		mov rsi, HELP_MESSAGE
-		call _print_string
+		call _print_string_ln
 		call _exit
 
 	_bad_format_number:
 		mov rsi, ERR_BAD_FORAMT_NUMBER
-		call _print_string
+		call _print_string_ln
 		mov rsi, HELP_MESSAGE
-		call _print_string
+		call _print_string_ln
 		call _exit
 
 	_atoi_safe:
