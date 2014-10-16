@@ -68,25 +68,17 @@ section .text
 	_strcmp:
 		push rsi
 		push rdi
-		push rdx
+		push rcx
 
-		xor rdx, rdx
+		call _strlen
+		xchg rcx, rax
 
-		.loop:
-			lodsb
-			cmp al, [rdi]
-			jnz _strcmp.fail
-			inc rdi
-			cmp byte [rsi], 0
-			jnz _strcmp.loop
-		jmp .success
+		repe cmpsb
 
-		.fail:
-		inc rdx
-		.success:
-		xchg rdx, rax
+		xor rax, rax
+		setnz al
 
-		pop rdx
+		pop rcx
 		pop rdi
 		pop rsi
 
